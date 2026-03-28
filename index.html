@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summya Siddika Riya — Portfolio</title>
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    /* Motion base states — added only for animation, no design changes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Hero entrance — starts hidden, animates in on load */
+    .hero-tag,
+    .hero h1,
+    .hero-desc,
+    .btn-group,
+    .hero-card {
+      opacity: 0;
+    }
+    .hero-anim-done .hero-tag {
+      animation: heroFadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+    }
+    .hero-anim-done h1 {
+      animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards;
+    }
+    .hero-anim-done .hero-desc {
+      animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+    }
+    .hero-anim-done .btn-group {
+      animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
+    }
+    .hero-anim-done .hero-card {
+      animation: heroFadeRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
+    }
+
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroFadeRight {
+      from { opacity: 0; transform: translateX(36px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Floating card subtle bob */
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+    .hero-card.float-active {
+      animation: heroFadeRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards,
+                 floatCard 4s ease-in-out 1.2s infinite;
+    }
+
+    /* Nav link underline slide */
+    nav a {
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--highlight);
+      border-radius: 2px;
+      transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Skill tag pop on hover */
+    .skill-tag {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+    .skill-tag:hover {
+      transform: scale(1.08) translateY(-2px);
+    }
+
+    /* Contact link slide */
+    .contact-link {
+      transition: border-color 0.2s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+
+    /* Photo frame shimmer on load */
+    @keyframes shimmerBorder {
+      0%   { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .photo-frame.visible-frame::before {
+      animation: shimmerBorder 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Stagger delay helpers */
+    .delay-1 { transition-delay: 0.1s !important; }
+    .delay-2 { transition-delay: 0.2s !important; }
+    .delay-3 { transition-delay: 0.3s !important; }
+    .delay-4 { transition-delay: 0.4s !important; }
+    .delay-5 { transition-delay: 0.5s !important; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="logo">Riya<span>.</span></div>
+    <ul>
+      <li><a href="#photo">Profile</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-tag">Available for opportunities</div>
+        <h1>Building<br>things with<br><em>purpose.</em></h1>
+        <p class="hero-desc">"The only way to do great work is to love what you do -Steve Jobs "</p>
+        <div class="btn-group">
+          <a href="#skills" class="btn btn-primary">View Skills →</a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-tag">Open to Work</div>
+          <div class="hero-card-label">Portfolio Card</div>
+          <div class="hero-card-name">Summya Siddika Riya</div>
+          <div class="hero-card-role">Student · Aspiring Developer</div>
+          <div class="hero-card-stats">
+            <div class="stat-item">
+              <div class="stat-val">3+</div>
+              <div class="stat-lbl">Languages</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-val">2027</div>
+              <div class="stat-lbl">Graduating</div>
+            </div>
+            <div class="stat-item">
+            
+            <div class="stat-item">
+             <div class="stat-val">1</div>
+              <div class="stat-lbl">Project</div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO / PROFILE SECTION -->
+  <section id="photo">
+    <div class="photo-inner">
+      <div class="photo-frame-wrap">
+        <div class="photo-frame reveal-left">
+          <div class="photo-circle">
+            <!--
+              TO ADD YOUR PHOTO:
+              Replace the div below with:
+              <img src="your-photo.jpg" alt="Summya Siddika Riya" />
+            -->
+            <div class="photo-placeholder">
+              <div class="photo-placeholder-icon">👤</div>
+              <img src="/WhatsApp Image 2026-03-27 at 1.06.34 AM.jpeg" alt="Summya Siddika Riya" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="photo-content reveal-right">
+        <div class="section-label">Meet Me</div>
+        <h2>Summya Siddika<br><span class="name-underline">Riya</span></h2>
+        <p>Hi! I'm Riya — a Computer Science student with a deep love for programming, problem-solving, and building things from scratch. I believe in writing clean, purposeful code.</p>
+        <p>I'm actively seeking internships and fresher roles where I can contribute my skills, learn from experienced teams, and grow as a developer.</p>
+        <div class="photo-badges">
+          <span class="photo-badge accent">C++</span>
+          <span class="photo-badge accent">Python</span>
+          <span class="photo-badge accent">Java</span>
+          <span class="photo-badge">Problem Solver</span>
+          <span class="photo-badge">Quick Learner</span>
+          <span class="photo-badge">Team Player</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="reveal-left">
+        <div class="section-label">About Me</div>
+        <h2 style="margin-bottom: 1.5rem;">Who I am</h2>
+        <div class="about-text">
+          <p>I'm Summya Siddika Riya, a passionate Computer Science student who enjoys turning complex problems into elegant code. My journey started with curiosity and has grown into a strong foundation in multiple programming languages.</p>
+          <p>I thrive in collaborative environments, love hackathons, and am always on the lookout for my next challenge — big or small.</p>
+        </div>
+      </div>
+      <div class="about-highlights">
+        <div class="highlight-item reveal delay-1">
+          <div class="highlight-icon">🎓</div>
+          <div>
+            <h4>B.Sc. Computer Science</h4>
+            <p>Expected Graduation · 2027</p>
+          </div>
+        </div>
+        <div class="highlight-item reveal delay-2">
+          <div class="highlight-icon">💡</div>
+          <div>
+            <h4>Core Programming Skills</h4>
+            <p>Proficient in C++, Python, and Java</p>
+          </div>
+        </div>
+        <div class="highlight-item reveal delay-3">
+          <div class="highlight-icon">🤝</div>
+          <div>
+            <h4>Team Collaborator</h4>
+            <p>Worked on multiple group and open-source projects</p>
+          </div>
+        </div>
+        <div class="highlight-item reveal delay-4">
+          <div class="highlight-icon">🚀</div>
+          <div>
+            <h4>Fresher & Ready</h4>
+            <p>Eager to contribute and grow in a professional team</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Education</div>
+        <h2>My academic journey</h2>
+      </div>
+    </div>
+    <div class="education-content">
+      <div class="education-timeline">
+
+        <div class="edu-card reveal delay-1">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-body">
+            <div class="edu-year">2023 — 2027</div>
+            <h3 class="edu-degree">B.Sc. in Computer Science & Engineering</h3>
+            <div class="edu-school">Northern University of Business and Technology Khulna</div>
+            <p class="edu-desc">Studying core computer science fundamentals including data structures, algorithms, OOP, and software engineering principles.</p>
+            <div class="edu-tags">
+              <span class="edu-tag">C++</span>
+              <span class="edu-tag">Python</span>
+              <span class="edu-tag">Java</span>
+              <span class="edu-tag">DBMS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="edu-card reveal delay-2">
+          <div class="edu-icon">🏫</div>
+          <div class="edu-body">
+            <div class="edu-year">2020 — 2022</div>
+            <h3 class="edu-degree">Higher Secondary Certificate (HSC)</h3>
+            <div class="edu-school">Government Pioneer Women's College, Khulna</div>
+            <p class="edu-desc">Completed HSC with Science group, building a strong foundation in Mathematics and Physics.</p>
+            <div class="edu-tags">
+              <span class="edu-tag">Science</span>
+              <span class="edu-tag">Mathematics</span>
+              <span class="edu-tag">Physics</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="edu-card reveal delay-3">
+          <div class="edu-icon">📚</div>
+          <div class="edu-body">
+            <div class="edu-year">2018 — 2020</div>
+            <h3 class="edu-degree">Secondary School Certificate (SSC)</h3>
+            <div class="edu-school">Your School Name</div>
+            <p class="edu-desc">Completed SSC with Science group. Developed early interest in mathematics and logical thinking.</p>
+            <div class="edu-tags">
+              <span class="edu-tag">Science</span>
+              <span class="edu-tag">Math</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Skills</div>
+        <h2>What I work with</h2>
+      </div>
+    </div>
+    <div class="skills-content">
+      <div class="skills-grid">
+        <div class="skill-group reveal delay-1">
+          <div class="skill-group-title">Programming Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag active">C++</span>
+            <span class="skill-tag active">Python</span>
+            <span class="skill-tag active">Java</span>
+           <span class="skill-tag active">DBMS</span>
+          </div>
+        </div>
+        <div class="skill-group reveal delay-2">
+          <div class="skill-group-title">Concepts</div>
+          <div class="skill-tags">
+            <span class="skill-tag">OOP</span>
+            <span class="skill-tag">Data Structures</span>
+            <span class="skill-tag">Algorithms</span>
+          </div>
+        </div>
+        <div class="skill-group reveal delay-3">
+          <div class="skill-group-title">Tools</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Git & GitHub</span>
+            <span class="skill-tag">VS Code</span>
+            <span class="skill-tag">Linux</span>
+          </div>
+        </div>
+        <div class="skill-group reveal delay-4">
+          <div class="skill-group-title">Soft Skills</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Problem Solving</span>
+            <span class="skill-tag">Teamwork</span>
+            <span class="skill-tag">Communication</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Projects</div>
+        <h2>Things I've built</h2>
+      </div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal-scale delay-1">
+        <div class="project-thumb project-thumb-1">
+          <div class="project-num">01</div>
+          <div class="project-badge">Featured</div>
+          <span style="font-size: 2.5rem;">💻</span>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="project-tag">PHP</span>
+            <span class="project-tag">MySql</span>
+             <span class="project-tag">HTML & CSS</span>
+          </div>
+          <div class="project-title">Online Food Order System</div>
+          <p class="project-desc">A user-friendly web application for ordering food online with real-time cart and order handling.</p>
+          
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="reveal-left">
+        <div class="section-label">Contact</div>
+        <h2 style="margin-bottom: 1rem;">Let's connect</h2>
+        <p class="contact-desc">Have an opportunity, a project idea, or just want to say hello? I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="mailto:riya@email.com" class="contact-link">
+            <div class="contact-link-icon">✉️</div>
+            <div>
+              <div class="contact-link-text">Email</div>
+              <div class="contact-link-sub">summyariya1@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/summya-riya-5777ba3ba/" class="contact-link">
+            <div class="contact-link-icon">💼</div>
+            <div>
+              <div class="contact-link-text">LinkedIn</div>
+              <div class="contact-link-sub">linkedin.com/in/summyariya</div>
+            </div>
+          </a>
+          <a href="https://github.com/summyariya1-svg" class="contact-link">
+            <div class="contact-link-icon">🐙</div>
+            <div>
+              <div class="contact-link-text">GitHub</div>
+              <div class="contact-link-sub">github.com/summyariya</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form-side reveal-right">
+        <h3>Send a message</h3>
+        <div class="form-row">
+          <label>Your Name</label>
+          <input type="text" placeholder="Jane Smith" />
+        </div>
+        <div class="form-row">
+          <label>Email</label>
+          <input type="email" placeholder="jane@company.com" />
+        </div>
+        <div class="form-row">
+          <label>Message</label>
+          <textarea placeholder="Hi Riya, I'd love to chat about..."></textarea>
+        </div>
+        <button class="form-submit">Send Message →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-copy">© 2026 Summya Siddika Riya. Built with care.</div>
+    <div class="footer-links">
+      <a href="#home">Back to top ↑</a>
+      <a href="#">Resume</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Hero entrance animation ──────────────────────────────────────────────
+    window.addEventListener('DOMContentLoaded', () => {
+      // Trigger hero staggered entrance
+      requestAnimationFrame(() => {
+        document.querySelector('.hero').classList.add('hero-anim-done');
+        // Add floating animation to card after entrance completes
+        setTimeout(() => {
+          const card = document.querySelector('.hero-card');
+          if (card) card.classList.add('float-active');
+        }, 1200);
+      });
+
+      // ── Scroll reveal with IntersectionObserver ────────────────────────────
+      const revealClasses = ['.reveal', '.reveal-left', '.reveal-right', '.reveal-scale'];
+      const allRevealEls = document.querySelectorAll(revealClasses.join(','));
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      allRevealEls.forEach(el => observer.observe(el));
+
+      // ── Photo frame border shimmer when photo section enters view ──────────
+      const photoFrame = document.querySelector('.photo-frame');
+      if (photoFrame) {
+        const frameObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible-frame');
+              frameObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        frameObserver.observe(photoFrame);
+      }
+
+      // ── Nav active highlight on scroll ────────────────────────────────────
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+      const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+              link.style.color = '';
+            });
+            const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+            if (activeLink) activeLink.style.color = 'var(--text)';
+          }
+        });
+      }, { threshold: 0.4 });
+
+      sections.forEach(sec => navObserver.observe(sec));
+
+      // ── Stat counter animation on hero card ───────────────────────────────
+      const statVals = document.querySelectorAll('.stat-val');
+      statVals.forEach(el => {
+        const target = el.textContent.replace(/\D/g, '');
+        const suffix = el.textContent.replace(/[\d]/g, '');
+        if (!target) return;
+        const num = parseInt(target);
+        let start = 0;
+        const duration = 1200;
+        const delay = 700;
+        setTimeout(() => {
+          const step = (timestamp) => {
+            if (!step.startTime) step.startTime = timestamp;
+            const progress = Math.min((timestamp - step.startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * num) + suffix;
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }, delay);
+      });
+
+      // ── Edu card left-border highlight on hover ───────────────────────────
+      document.querySelectorAll('.edu-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.borderLeftColor = 'var(--highlight)';
+          card.style.borderLeftWidth = '3px';
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.borderLeftColor = '';
+          card.style.borderLeftWidth = '';
+        });
+      });
+
+      // ── Form submit button pulse on click ─────────────────────────────────
+      const submitBtn = document.querySelector('.form-submit');
+      if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+          submitBtn.style.transform = 'scale(0.97)';
+          setTimeout(() => { submitBtn.style.transform = ''; }, 150);
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
